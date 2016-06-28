@@ -44,7 +44,9 @@ class Input extends React.Component<NameInputProps, NameInputState> {
     // autoFocus doesn't work either
     console.log('grabFocus is ' + this.props.grabFocus);
     return (
-      <input ref={this.inputRef}
+      <input
+        className="Input-control" 
+        ref={this.inputRef}
         autoFocus={this.props.grabFocus}
         type={this.props.type}
         onFocus={inputOwnership} onBlur={inputOwnership}
