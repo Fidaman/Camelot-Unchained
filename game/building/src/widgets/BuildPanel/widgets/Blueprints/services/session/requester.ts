@@ -39,11 +39,7 @@ class BlueprintLoader {
     
   /* mode is defined as a boolean, it is actually a number */
 
-    client.OnBuildingModeChanged((mode: any) => {
-      if (mode==buildUIMode.NOTBUILDING)
-        client.HideUI("building");
-      else
-        client.ShowUI("building");
+    client.OnBuildingModeChanged((mode: number) => {
       callback(mode==buildUIMode.BLOCKSELECTED);
     });
   }

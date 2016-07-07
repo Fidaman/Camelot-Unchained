@@ -5,7 +5,7 @@
  */
 
 import * as React from 'react';
-import {client, channelId} from 'camelot-unchained';
+import {client, channelId, events} from 'camelot-unchained';
 
 import ActionButton from './components/ActionButton';
 
@@ -14,6 +14,7 @@ export interface ActionBarProps {
 
 export interface ActionBarState {
   minimized: boolean;
+  buildingMode: number;
 }
 
 class ActionBar extends React.Component<ActionBarProps, ActionBarState> {
@@ -22,37 +23,43 @@ class ActionBar extends React.Component<ActionBarProps, ActionBarState> {
     super(props);
     this.state = {
       minimized: false,
+      buildingMode: 1
     }
+  }
+
+  componentDidMount() {
+    client.OnBuildingModeChanged((buildingMode: number) => {
+      this.setState({buildingMode: buildingMode} as any);
+    });
   }
 
   onMinMax() {
     this.setState({
       minimized: !this.state.minimized,
+      buildingMode: 1
     });
   }
 
   onSelect() {
-    console.log('select');
+    if (this.state.buildingMode < 4) {
+      client.SetBuildingMode(4);
+      this.setState({buildingMode: 4} as any);
+    } else {
+      client.SetBuildingMode(1);
+      this.setState({buildingMode: 1} as any);
+    }
   }
 
-  onAdd() {
+  onComit() {
     client.CommitBlock();
   }
 
-  onDelete() {
-    console.log('delete');
-  }
-
-  onReturn() {
-    console.log('return');
-  }
-
   onUndo() {
-    console.log('undo');
+    client.UndoCube();
   }
 
   onRedo() {
-    console.log('redo');
+    client.RedoCube();
   }
 
   onRotX() {
@@ -80,7 +87,6 @@ class ActionBar extends React.Component<ActionBarProps, ActionBarState> {
   }
 
   render() {
-    console.log("channel id="+channelId);
     const CUBE_CHANNEL:any = 27;
     const cube = channelId == CUBE_CHANNEL;
     const hideIfCube = { display: cube ? 'none' : '' };
@@ -97,73 +103,61 @@ class ActionBar extends React.Component<ActionBarProps, ActionBarState> {
           <li onClick={() => this.onSelect() }>
             <ActionButton isActive={false}
               icon={'images/action-bar-select.png'} />
+            {this.state.minimized ? null : <em>`</em>}
+          </li>
+
+          <li onClick={() => this.onComit()}>
+            <ActionButton isActive={false}
+              icon={this.state.buildingMode < 4 ? 'images/action-bar-add-block.png' : 'images/action-bar-del-block.png'} />
             {this.state.minimized ? null : <em>1</em>}
-          </li>
-
-          <li onClick={() => this.onAdd() }>
-            <ActionButton isActive={false}
-              icon={'images/action-bar-add-block.png'} />
-            {this.state.minimized ? null : <em>2</em>}
-          </li>
-
-          <li onClick={() => this.onDelete() }>
-            <ActionButton isActive={false}
-              icon={'images/action-bar-del-block.png'} />
-            {this.state.minimized ? null : <em>3</em>}
-          </li>
-
-          <li onClick={() => this.onReturn() }>
-            <ActionButton isActive={false}
-              icon={'images/action-bar-return-block.png'} />
-            {this.state.minimized ? null : <em>4</em>}
           </li>
 
           <li onClick={() => this.onUndo() } style={hideIfCube}>
             <ActionButton isActive={false}
               icon={'images/action-bar-undo.png'} />
-            {this.state.minimized ? null : <em>5</em>}
+            {this.state.minimized ? null : <em>2</em>}
           </li>
 
           <li onClick={() => this.onRedo() } style={hideIfCube}>
             <ActionButton isActive={false}
               icon={'images/action-bar-redo.png'} />
-            {this.state.minimized ? null : <em>6</em>}
+            {this.state.minimized ? null : <em>3</em>}
           </li>
 
           <li onClick={() => this.onRotX() }>
             <ActionButton isActive={false}
               icon={'images/action-bar-rotate-x.png'} />
-            {this.state.minimized ? null : <em>7</em>}
+            {this.state.minimized ? null : <em>4</em>}
           </li>
 
           <li onClick={() => this.onRotY() }>
             <ActionButton isActive={false}
               icon={'images/action-bar-rotate-y.png'} />
-            {this.state.minimized ? null : <em>8</em>}
+            {this.state.minimized ? null : <em>5</em>}
           </li>
 
           <li onClick={() => this.onRotZ() }>
             <ActionButton isActive={false}
               icon={'images/action-bar-rotate-z.png'} />
-            {this.state.minimized ? null : <em>9</em>}
+            {this.state.minimized ? null : <em>6</em>}
           </li>
 
           <li onClick={() => this.onFlipX() }>
             <ActionButton isActive={false}
               icon={'images/action-bar-flip-x.png'} />
-            {this.state.minimized ? null : <em>0</em>}
+            {this.state.minimized ? null : <em>7</em>}
           </li>
 
           <li onClick={() => this.onFlipY() }>
             <ActionButton isActive={false}
               icon={'images/action-bar-flip-y.png'} />
-            {this.state.minimized ? null : <em>-</em>}
+            {this.state.minimized ? null : <em>8</em>}
           </li>
 
           <li onClick={() => this.onFlipZ() }>
             <ActionButton isActive={false}
               icon={'images/action-bar-flip-z.png'} />
-            {this.state.minimized ? null : <em>=</em>}
+            {this.state.minimized ? null : <em>9</em>}
           </li>
 
         </ul>

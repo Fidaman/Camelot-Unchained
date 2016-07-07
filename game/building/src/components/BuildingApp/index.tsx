@@ -6,6 +6,7 @@
 
 import * as React from 'react';
 import {connect} from 'react-redux';
+import {client} from 'camelot-unchained';
 
 import ActionBar from '../../widgets/ActionBar';
 import BuildingPanel from '../../widgets/BuildPanel';
@@ -36,6 +37,7 @@ export interface BuildingAppProps {
 }
 
 export interface BuildingAppState {
+  buildingMode: number;
 }
 
 class BuildingApp extends React.Component<BuildingAppProps, BuildingAppState> {
@@ -44,17 +46,41 @@ class BuildingApp extends React.Component<BuildingAppProps, BuildingAppState> {
 
   constructor(props: BuildingAppProps) {
     super(props);
+    this.state = {
+      buildingMode: 1
+    }
   }
   
   componentWillMount() {
     this.props.dispatch(selectItem(selectedItem));
   }
 
-//      <ActionBar />
+  componentDidMount() {
+    client.OnBuildingModeChanged((buildingMode: number) => {
+      console.log(buildingMode);
+      this.setState({buildingMode: buildingMode});
+    });
+  }
+
 
   render() {
+
+    if (this.state.buildingMode == 0) {
+      return (
+        <div classname='building'>
+          <div id="building-button" onClick={() => this.state.buildingMode == 0 ? client.SetBuildingMode(1) : client.SetBuildingMode(0)}>
+            <div/>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className='building'>
+        <div id="building-button" onClick={() => this.state.buildingMode == 0 ? client.SetBuildingMode(1) : client.SetBuildingMode(0)}>
+          <div/>
+        </div>
+      <ActionBar />
       <BuildingPanel onItemSelect={(item: BuildingItem) => this.props.dispatch(selectItem(item))}/>
       <SelectionView item={this.props.selectedItem} />  
     </div>

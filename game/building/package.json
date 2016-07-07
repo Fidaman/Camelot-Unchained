@@ -80,8 +80,6 @@
     "browserify": "^13.0.0",
     "http-server": "^0.9.0",
     "mkdirp": "^0.5.1",
-    "node-sass": "^3.4.2",
-    "typescript": "^1.8.0",
-    "typings": "^0.6.8"
+    "node-sass": "^3.4.2"
   }
 }
