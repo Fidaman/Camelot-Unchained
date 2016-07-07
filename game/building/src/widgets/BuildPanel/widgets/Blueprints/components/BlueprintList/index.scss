@@ -30,23 +30,16 @@
     }
   }
 
+  .label {
+    position: relative;
+    display: block;
+    width: 60px;
+    text-align: center;
+    font-size: .8em;
+  }
 }
 
-.icon {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  width: 60px;
-  height: 50px;
-}
 
-.label {
-  position: relative;
-  display: block;
-  width: 60px;
-  text-align: center;
-  font-size: .8em;
-}
 
 .BlueprintsPane {
   position: relative;
