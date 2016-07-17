@@ -21,6 +21,10 @@ import EquippedGearListener from './listeners/EquippedGear';
 import ConsoleListener from './listeners/Console';
 import LoggingListener from './listeners/Logging';
 import PlotListener from './listeners/Plot';
+import BlockSelectListener from '../building/events/BlockSelect';
+import BuildingModeListener from '../building/events/BuildingMode';
+import BlueprintSelectListener from '../building/events/BlueprintSelect'
+import BlueprintCopyListener from '../building/events/BlueprintCopy'
 
 // Listeners
 const listeners: any = {
@@ -37,7 +41,11 @@ const listeners: any = {
   [clientEventTopics.handlesEquippedGear]: new EquippedGearListener(),
   [clientEventTopics.handlesConsole]: new ConsoleListener(),
   [clientEventTopics.handlesLogging]: new LoggingListener(),
-  [clientEventTopics.handlesPlot]: new PlotListener()
+  [clientEventTopics.handlesPlot]: new PlotListener(),
+  [clientEventTopics.handlesBlockSelect]: new BlockSelectListener(),
+  [clientEventTopics.handlesBuildingMode]: new BuildingModeListener(),
+  [clientEventTopics.handlesBlueprintSelect]: new BlueprintSelectListener(),
+  [clientEventTopics.handlesBlueprintCopy]: new BlueprintCopyListener()
 };
 
 // Event Emitter.  A single instance of event emitter handles all cu-events events

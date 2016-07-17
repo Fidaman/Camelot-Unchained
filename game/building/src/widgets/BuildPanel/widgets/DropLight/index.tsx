@@ -33,7 +33,7 @@ class Container extends React.Component<BuildPaneProps, ContainerState> {
     return (
       <Provider store={store}>
         <TabbedPane tabs={['Drop Light']}>
-          <DroplightPane onItemSelect={this.props.onItemSelect} minimized={this.props.minimized} />
+          <DroplightPane minimized={this.props.minimized} />
         </TabbedPane>
       </Provider>
     )

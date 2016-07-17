@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 import {client} from 'camelot-unchained';
 
 import {BuildingItem, BuildingItemType} from '../../../../../../lib/BuildingItem'
+import {fireBuildingItemSelected} from '../../../../../../services/events';
 
 import {GlobalState} from '../../services/session/reducer';
 import * as lightService from '../../services/session/lights';
@@ -30,7 +31,6 @@ export interface DropLightPaneProps {
   dispatch?: (action: any) => void;
   lightsState?: LightsState;
   minimized?: boolean;
-  onItemSelect?: (item: BuildingItem) => void;
 }
 
 export interface DropLightPaneState {
@@ -95,7 +95,7 @@ class DropLightPane extends React.Component<DropLightPaneProps, DropLightPaneSta
         select: () => { this.selectLight(light) }
       } as BuildingItem;
     }
-    this.props.onItemSelect(item);
+    fireBuildingItemSelected(item);
 
   }
 

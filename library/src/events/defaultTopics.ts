@@ -18,5 +18,11 @@ export const clientEventTopics = {
   handlesControlGame: 'controlgame',
   handlesConsole: 'console',
   handlesChat: 'chat',
-  handlesCharacter: 'character'
+  handlesCharacter: 'character',
+  handlesBuildingMode: 'building-mode',
+  handlesBlockSelect: 'block-select',
+  handlesBlocks: 'block-updated',
+  handlesBlueprintSelect: 'blueprint-select',
+  handlesBlueprintCopy: 'blueprint-copy',
+  handlesBlueprints: 'blueprint-updated',
 }

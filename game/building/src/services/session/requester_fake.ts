@@ -1,18 +1,11 @@
 import {client, channelId, events} from 'camelot-unchained';
 
-class BlockActions {
-  private modeCallbacks: { (mode: number): void }[] = [];
-
-  public listenForModeChange(callback: { (mode: number): void }) {
-    this.modeCallbacks.push(callback);
-  }
+class BuildingRequests {
 
   public changeMode(mode: number) {
     setTimeout(() => {
-      this.modeCallbacks.forEach((callback: (mode: number) => void) => {
-        console.log("changeMode to "+mode)
-        callback(mode);
-      })
+      console.log("changeMode to "+mode)
+      events.fire(events.clientEventTopics.handlesBuildingMode, {mode: mode});
     }, 500);
   }
 
@@ -52,4 +45,4 @@ class BlockActions {
     console.log("flipZ");
   }
 }
-export default new BlockActions();
+export default new BuildingRequests();

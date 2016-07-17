@@ -6,11 +6,11 @@
 
 import * as React from 'react';
 
-import {Material} from '../../lib/Material';
+import {BuildingMaterial} from 'camelot-unchained';
 
 export interface MaterialViewProps {
   onClick: () => void;
-  selectedMaterial: Material;
+  selectedMaterial: BuildingMaterial;
 }
 
 export interface MaterialViewState {

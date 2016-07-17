@@ -6,18 +6,14 @@
 
 import {combineReducers} from 'redux';
 
-import selectionReducer, {SelectionState} from './selection';
-import buildingReducer, {BuildingState} from './building';
+import recentsReducer, {RecentsState} from './recents';
 
-const selection = selectionReducer;
-const building = buildingReducer;
+const recents = recentsReducer;
 
 export default combineReducers({
-  selection,
-  building
+  recents
 });
 
 export interface GlobalState {
-  selection: SelectionState,
-  building: BuildingState
+  recents: RecentsState,
 }

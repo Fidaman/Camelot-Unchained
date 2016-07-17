@@ -1,122 +1,76 @@
-import {Material, MaterialType} from '../../lib/Material';
-import {Block} from '../../lib/Block';
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+import {events, BuildingBlock, BuildingMaterial} from 'camelot-unchained';
 
 class MaterialRequests {
-  private selectionCallbacks: { (blockId: number): void }[] = [];
 
-  public loadMaterials(callback: (mats: Material[]) => void) {
-    setTimeout(() => callback(this.getMaterials()), 1000);
+  private materials: BuildingMaterial[] = [];
+
+  public requestMaterials() {
+      setTimeout(() => {
+        this.materials = this.getFakeMaterials();
+        events.fire(events.clientEventTopics.handlesBlocks, { materials: this.materials  });
+      }, 1000);
   }
 
-  public changeBlockSelection(block: Block) {
-    setTimeout(() => this.invokeSelectionCallbacks(block));
+  public requestBlockSelect(block: BuildingBlock)
+  {
+      setTimeout(() => {
+         this.invokeSelection(block);
+    }, 200);
+    
   }
 
-  public listenForBlockSelectionChange(callback: { (blockId: number): void }) {
-    this.selectionCallbacks.push(callback);
+  invokeSelection(block: BuildingBlock) {
+    const material: BuildingMaterial = this.materials.find((material: BuildingMaterial) => {
+      return material.id == block.materialId;
+    })
+
+    const info: any = { material: material, block: block };
+    events.fire(events.clientEventTopics.handlesBlockSelect, info);
   }
 
-
-  invokeSelectionCallbacks(block: Block) {
-    this.selectionCallbacks.forEach((callback: { (blockId: number): void }) => {
-      callback(block.id);
-    });
-  }
-
-  getBlockId(matId: number, shapeId:number) {
+  getBlockId(matId: number, shapeId: number) {
     return (matId << 2) | (shapeId << 21);
   }
 
-  getBlocks(material: number): Block[] {
-    
-    return [
-      {
-        id: this.getBlockId(material, 1),
-        icon: this.blockIcon1,
-        name: 'block one',
-        tags: 'block, one',
-        shape: 'cube',
+
+  getBlocks(material: number, tags: string[]): BuildingBlock[] {
+    const shapeTags: string[][] =
+      [
+        ['cube'],
+        ['cube', 'half-height'],
+        ['ramp'],
+        ['ramp, upper'],
+        ['half, ramp'],
+        ['cube","cutcorner'],
+        ['angled","pyramid'],
+        ['corner","pyramid'],
+        ['mitered","ramp'],
+        ['circle'],
+      ]
+
+    const blocks: BuildingBlock[] = [];
+    for (let shapeId = 1; shapeId <= 10; shapeId++) {
+      blocks.push({
+        id: this.getBlockId(material, shapeId),
+        icon: shapeId % 2 == 0 ? this.blockIcon1 : this.blockIcon2,
+        shapeId: shapeId,
+        shapeTags: shapeTags[shapeId - 1],
         materialId: material,
-        shapeId: 1
-      }, {
-        id: this.getBlockId(material, 2),
-        icon: this.blockIcon2,
-        name: 'block two',
-        tags: 'block, two',
-        shape: 'cube, half-height',
-        materialId: material,
-        shapeId: 2
-      }, {
-        id: this.getBlockId(material, 3),
-        icon: this.blockIcon1,
-        name: 'block three',
-        tags: 'block, three',
-        shape: 'ramp',
-        materialId: material,
-        shapeId: 3
-      }, {
-        id: this.getBlockId(material, 4),
-        icon: this.blockIcon2,
-        name: 'block four',
-        tags: 'block, four',
-        shape: 'ramp, upper',
-        materialId: material,
-        shapeId: 4
-      }, {
-        id: this.getBlockId(material, 5),
-        icon: this.blockIcon1,
-        name: 'block five',
-        tags: 'block, five',
-        shape: 'half, ramp',
-        materialId: material,
-        shapeId: 5
-      }, {
-        id: this.getBlockId(material, 6),
-        icon: this.blockIcon2,
-        name: 'block six',
-        tags: 'block, six',
-        shape: 'cube","cutcorner',
-        materialId: material,
-        shapeId: 6
-      }, {
-        id: this.getBlockId(material, 7),
-        icon: this.blockIcon2,
-        name: 'block seven',
-        tags: 'block, seven',
-        shape: 'angled","pyramid',
-        materialId: material,
-        shapeId: 7
-      }, {
-        id: this.getBlockId(material, 8),
-        icon: this.blockIcon2,
-        name: 'block eight',
-        tags: 'block, eight',
-        shape: 'corner","pyramid',
-        materialId: material,
-        shapeId: 8
-      }, {
-        id: this.getBlockId(material, 9),
-        icon: this.blockIcon2,
-        name: 'block nine',
-        tags: 'block, nine',
-        shape: 'mitered","ramp',
-        materialId: material,
-        shapeId: 9
-      }, {
-        id: this.getBlockId(material, 10),
-        icon: this.blockIcon2,
-        name: 'block ten',
-        tags: 'block, ten',
-        shape: 'circle',
-        materialId: material,
-        shapeId: 10
-      },
-    ];
+        materialTags: tags,
+      } as BuildingBlock);
+    }
+
+    return blocks;
   }
 
-  getAllBlocks(): Block[] {
-    const mats: Material[] = this.getMaterials();
-    const blocks: Block[] = [];
+  getAllBlocks(): BuildingBlock[] {
+    const mats: BuildingMaterial[] = this.getFakeMaterials();
+    const blocks: BuildingBlock[] = [];
     for (let m in mats) {
       const matBlocks = mats[m].blocks;
       blocks.push(...matBlocks);
@@ -124,34 +78,33 @@ class MaterialRequests {
     return blocks;
   }
 
-  createMaterial(matId: number, type: MaterialType) {
+  createMaterial(matId: number, type: string[]): BuildingMaterial {
+    const tags: string[] = [...type, 'some', 'tags', 'to', 'test', 'with'];
     return {
       id: matId,
-      icon: matId%2==0 ? this.materialIcon1 : this.materialIcon2,
-      name: 'mat ' + matId,
-      tags: 'some, tags, to, test, with',
-      type: type,
-      blocks: this.getBlocks(matId)
+      icon: matId % 2 == 0 ? this.materialIcon1 : this.materialIcon2,
+      tags: tags,
+      blocks: this.getBlocks(matId, tags)
     };
   }
 
-  getMaterials(): Material[] {
-    let mats: Material[] = [];
+  getFakeMaterials(): BuildingMaterial[] {
+    let mats: BuildingMaterial[] = [];
     let i = 0
     for (; i < 20; i++) {
-      mats.push(this.createMaterial(i, MaterialType.STONE_BLOCK));
+      mats.push(this.createMaterial(i, ['stone']));
     }
     for (; i < 40; i++) {
-      mats.push(this.createMaterial(i, MaterialType.STONE_TILE));
+      mats.push(this.createMaterial(i, ['stone', 'tile']));
     }
     for (; i < 60; i++) {
-      mats.push(this.createMaterial(i, MaterialType.STONE_SHEET));
+      mats.push(this.createMaterial(i, ['stone', 'sheet']));
     }
     for (; i < 80; i++) {
-      mats.push(this.createMaterial(i, MaterialType.WOOD));
+      mats.push(this.createMaterial(i, ['wood']));
     }
     for (; i < 90; i++) {
-      mats.push(this.createMaterial(i, MaterialType.OTHER));
+      mats.push(this.createMaterial(i, []));
     }
     return mats;
   }

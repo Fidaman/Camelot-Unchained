@@ -7,5 +7,4 @@ import {BuildingItem} from '../../../lib/BuildingItem'
 
 export interface BuildPaneProps {
   minimized: boolean,
-  onItemSelect?: (item: BuildingItem) => void
 }

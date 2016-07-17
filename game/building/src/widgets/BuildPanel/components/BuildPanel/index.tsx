@@ -5,7 +5,6 @@
  */
 
 import * as React from 'react';
-import {connect} from 'react-redux';
 
 import TabbedPane from '../TabbedPane';
 
@@ -16,15 +15,12 @@ import Blueprints from '../../widgets/Blueprints';
 
 import {BuildingItem} from '../../../../lib/BuildingItem'
 
-
 export interface BuildPanelProps {
-  onItemSelect?: (item: BuildingItem) => void;
+
 }
 
 export interface BuildPanelState {
   minimized: boolean;
-  item: BuildingItem;
-  recentitems: BuildingItem[];
 }
 
 class BuildPanel extends React.Component<BuildPanelProps, BuildPanelState> {
@@ -33,8 +29,6 @@ class BuildPanel extends React.Component<BuildPanelProps, BuildPanelState> {
     super(props);
     this.state = {
       minimized: false,
-      recentitems: this.buildRecentItemList(null, []),
-      item: null
     }
   }
 
@@ -42,30 +36,6 @@ class BuildPanel extends React.Component<BuildPanelProps, BuildPanelState> {
     this.setState({
       minimized: !this.state.minimized,
     } as BuildPanelState);
-  }
-
-  selectItem = (item: BuildingItem) => {
-    this.props.onItemSelect(item);
-
-    const newItems: BuildingItem[] = this.buildRecentItemList(item, this.state.recentitems);
-
-    this.setState({
-      item: item,
-      recentitems: newItems,
-    } as BuildPanelState);
-  }
-
-  buildRecentItemList(item: BuildingItem, items: BuildingItem[]) {
-    const newItems: BuildingItem[] = [];
-    newItems.push(item);
-    for (let i = 0; i < 11; i++) {
-      let current: BuildingItem = items[i];
-      let add: boolean = current == null || !(current.id == item.id && current.type == item.type);
-      if (add) {
-        newItems.push(current);
-      }
-    }
-    return newItems;
   }
 
   render() {
@@ -78,12 +48,10 @@ class BuildPanel extends React.Component<BuildPanelProps, BuildPanelState> {
           <span className='info'>?</span>
         </header>
 
-        <Blocks minimized={this.state.minimized} onItemSelect={this.selectItem}/>
-        <RecentSelections minimized={this.state.minimized} onItemSelect={this.props.onItemSelect}
-          item={this.state.item}
-          items={this.state.recentitems} />
-        <Blueprints minimized={this.state.minimized} onItemSelect={this.selectItem}/>
-        <DropLight minimized={this.state.minimized} onItemSelect={this.selectItem}/>
+        <Blocks minimized={this.state.minimized} />
+        <RecentSelections minimized={this.state.minimized} />
+        <Blueprints minimized={this.state.minimized} />
+        <DropLight minimized={this.state.minimized} />
       </div>
     )
   }

@@ -4,8 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import {Material, MaterialType} from '../../lib/Material';
-import {Block} from '../../lib/Block';
+import {BuildingBlock, BuildingMaterial} from 'camelot-unchained'
 import requester from './requester';
 
 const assign = require('object-assign');
@@ -13,24 +12,22 @@ const assign = require('object-assign');
 const SELECT_FROM_MATERIAL = 'buildpanel/panes/SELECT_FROM_MATERIAL';
 const SELECT_TO_MATERIAL = 'buildpanel/panes/SELECT_TO_MATERIAL';
 
-const DEFAULT_MATERIAL: Material = {
+const DEFAULT_MATERIAL: BuildingMaterial = {
   id: -1,
   icon: '',
-  name: 'default',
-  tags: 'default',
-  type: MaterialType.OTHER,
+  tags: ['default'],
   blocks: []
-} as Material;
+} as BuildingMaterial;
 
 
-export function selectFromMaterial(material: Material) {
+export function selectFromMaterial(material: BuildingMaterial) {
   return {
     type: SELECT_FROM_MATERIAL,
     selectedMaterial: material
   }
 }
 
-export function selectToMaterial(material: Material) {
+export function selectToMaterial(material: BuildingMaterial) {
   return {
     type: SELECT_TO_MATERIAL,
     selectedMaterial: material
@@ -38,8 +35,8 @@ export function selectToMaterial(material: Material) {
 }
 
 export interface MaterialsReplaceState {
-  from: Material;
-  to: Material;
+  from: BuildingMaterial;
+  to: BuildingMaterial;
 }
 
 const initialState: MaterialsReplaceState = {

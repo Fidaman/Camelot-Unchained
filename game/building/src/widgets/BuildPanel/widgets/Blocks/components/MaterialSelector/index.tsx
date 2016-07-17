@@ -5,13 +5,14 @@
  */
 
 import * as React from 'react';
+import {BuildingMaterial} from 'camelot-unchained';
 
-import {Material, MaterialType} from '../../lib/Material';
+import MaterialsByType from '../../lib/MaterialsByType';
 
 export interface MaterialSelectorProps {
-  materials: Material[];
-  selectMaterial: (mat: Material) => void;
-  selected: Material;
+  materialsByType: MaterialsByType;
+  selectMaterial: (mat: BuildingMaterial) => void;
+  selected: BuildingMaterial;
 }
 
 export interface MaterialSelectorState {
@@ -23,7 +24,7 @@ class MaterialSelector extends React.Component<MaterialSelectorProps, MaterialSe
     super(props);
   }
 
-  generateMaterialIcon = (mat: Material, selectedId: number) => {
+  generateMaterialIcon = (mat: BuildingMaterial, selectedId: number) => {
     return (
       <img key={mat.id}
         className={mat.id == selectedId ? 'active' : ''}
@@ -35,29 +36,18 @@ class MaterialSelector extends React.Component<MaterialSelectorProps, MaterialSe
 
   render() {
     const selectedId: number = this.props.selected ? this.props.selected.id : null;
-    const stoneBlocks: Material[] = [];
-    const stoneTilesAndSheets: Material[] = [];
-    const woodAndOrganic: Material[] = [];
-    this.props.materials.forEach((material: Material)=>{
-      if(material.type==MaterialType.STONE_BLOCK)
-        stoneBlocks.push(material);
-      else if(material.type==MaterialType.STONE_TILE ||
-              material.type==MaterialType.STONE_SHEET)
-        stoneTilesAndSheets.push(material);
-      else
-        woodAndOrganic.push(material);
-    })
 
     return (
+
       <div className='material-and-shape__material-selector'>
         <header>Stone Blocks</header>
-        {stoneBlocks.map((mat: Material) => this.generateMaterialIcon(mat, selectedId)) }
+        {this.props.materialsByType.stoneBlocks.map((mat: BuildingMaterial) => this.generateMaterialIcon(mat, selectedId)) }
 
         <header>Stone Tiles & Sheets</header>
-        {stoneTilesAndSheets.map((mat: Material) => this.generateMaterialIcon(mat, selectedId)) }
+        {this.props.materialsByType.stoneTilesAndSheets.map((mat: BuildingMaterial) => this.generateMaterialIcon(mat, selectedId)) }
 
         <header>Wood & Organic</header>
-        {woodAndOrganic.map((mat: Material) => this.generateMaterialIcon(mat, selectedId)) }
+        {this.props.materialsByType.woodAndOrganic.map((mat: BuildingMaterial) => this.generateMaterialIcon(mat, selectedId)) }
       </div>
     )
   }

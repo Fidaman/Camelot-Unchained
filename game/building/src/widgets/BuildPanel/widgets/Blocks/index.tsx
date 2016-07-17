@@ -33,7 +33,7 @@ class Container extends React.Component<BuildPaneProps, ContainerState> {
     return (
       <Provider store={store}>
         <TabbedPane tabs={['Blocks', 'Replace']}>
-          <MaterialAndShapePane onItemSelect={this.props.onItemSelect} minimized={this.props.minimized}/>
+          <MaterialAndShapePane minimized={this.props.minimized}/>
           <MaterialReplace minimized={this.props.minimized}/>
         </TabbedPane>
       </Provider>

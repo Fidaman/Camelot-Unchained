@@ -6,16 +6,17 @@
 
 import * as React from 'react';
 import {connect} from 'react-redux';
+import {BuildingMaterial} from 'camelot-unchained';
 
 import {GlobalState} from '../../services/session/reducer';
+import MaterialsByType from '../../lib/MaterialsByType';
 import {selectFromMaterial, selectToMaterial} from '../../services/session/materials-replace'
-import {Material} from '../../lib/Material';
 import MaterialView from '../..//components/MaterialView';
 import MaterialSelector from '../..//components/MaterialSelector';
 
 function select(state: GlobalState): MaterialReplacePaneProps {
   return {
-    materials: state.materials.materials,
+    materialsByType: state.materials.materialsByType,
     from: state.replace.from,
     to: state.replace.to,
   }
@@ -24,9 +25,9 @@ function select(state: GlobalState): MaterialReplacePaneProps {
 export interface MaterialReplacePaneProps {
   dispatch?: (action: any) => void;
   minimized?: boolean;
-  materials: Material[];
-  from: Material;
-  to: Material;
+  materialsByType: MaterialsByType;
+  from: BuildingMaterial;
+  to: BuildingMaterial;
 }
 
 export interface MaterialReplacePaneState {
@@ -52,12 +53,12 @@ class MaterialReplacePane extends React.Component<MaterialReplacePaneProps, Mate
     this.setState({ showFrom: false, showTo: show } as MaterialReplacePaneState);
   }
 
-  selectFrom = (mat: Material) => {
+  selectFrom = (mat: BuildingMaterial) => {
     this.props.dispatch(selectFromMaterial(mat));
     this.setState({ showFrom: false, showTo: false } as MaterialReplacePaneState);
   }
 
-  selectTo = (mat: Material) => {
+  selectTo = (mat: BuildingMaterial) => {
     this.props.dispatch(selectToMaterial(mat));
     this.setState({ showFrom: false, showTo: false } as MaterialReplacePaneState);
   }
@@ -74,7 +75,7 @@ class MaterialReplacePane extends React.Component<MaterialReplacePaneProps, Mate
     if (this.state.showFrom) {
       matSelector = (
         <MaterialSelector
-          materials={this.props.materials}
+          materialsByType={this.props.materialsByType}
           selectMaterial={this.selectFrom}
           selected={this.props.from} />
       )
@@ -82,7 +83,7 @@ class MaterialReplacePane extends React.Component<MaterialReplacePaneProps, Mate
     else if (this.state.showTo) {
       matSelector = (
         <MaterialSelector
-          materials={this.props.materials}
+          materialsByType={this.props.materialsByType}
           selectMaterial={this.selectTo}
           selected={this.props.to} />
       )
