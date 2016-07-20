@@ -47,8 +47,8 @@ class ColorSelect extends React.Component<ColorSelectProps, ColorSelectState> {
   }
 
   updateHue(hue: number, color: Color): Color {
-    let opsColor = this.getOpsColor(color);
-    let hslColor = colorOps.toHSL(opsColor);
+    const opsColor = this.getOpsColor(color);
+    const hslColor = colorOps.toHSL(opsColor);
     const newColor = colorOps.hsl(hue, hslColor.s, hslColor.l);
 
     return {
@@ -63,7 +63,7 @@ class ColorSelect extends React.Component<ColorSelectProps, ColorSelectState> {
   }
 
   render() {
-    let opsColor = this.getOpsColor(this.props.color);
+    const opsColor = this.getOpsColor(this.props.color);
     const hue = colorOps.hue(opsColor);
 
     return (

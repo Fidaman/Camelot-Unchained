@@ -39,8 +39,8 @@ function updateRecentItemList(item: BuildingItem, items: BuildingItem[]) {
   const newItems: BuildingItem[] = [];
   newItems.push(item);
   for (let i = 0; i < 11; i++) {
-    let current: BuildingItem = items[i];
-    let add: boolean = current == null || !(current.id == item.id && current.type == item.type);
+    const current: BuildingItem = items[i];
+    const add: boolean = current == null || !(current.id == item.id && current.type == item.type);
     if (add) {
       newItems.push(current);
     }

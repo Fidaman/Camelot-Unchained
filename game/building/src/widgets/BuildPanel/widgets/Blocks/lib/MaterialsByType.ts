@@ -60,14 +60,6 @@ function hasType(tags: string[], types: { [key: string]: boolean }): boolean {
   }
   return false;
 }
-
-let names: string[] = [];
-names[MaterialType.STONE_BLOCK] = "STONE_BLOCK";
-names[MaterialType.STONE_TILE] = "STONE_TILE";
-names[MaterialType.STONE_SHEET] = "STONE_SHEET";
-names[MaterialType.WOOD] = "WOOD";
-names[MaterialType.OTHER] = "OTHER";
-
 const STONE: { [key: string]: boolean } = {
   "stone": true, "rock": true, "slate": true,
   "ceramic": true, "marble": true, "plaster": true,
@@ -78,12 +70,12 @@ const STONE: { [key: string]: boolean } = {
 
 const STONE_TILES: { [key: string]: boolean } = {
   "tiles": true,
-  "slate": true,
-  "tile": true //bad tag
+  "slate": true, //bad tag
+  "tile": true   //bad tag
 };
 const STONE_SHEETS: { [key: string]: boolean } = {
   "sheet": true,
-  "marble": true,
+  "marble": true,  //bad tag
   "polished": true //bad tag
 };
 

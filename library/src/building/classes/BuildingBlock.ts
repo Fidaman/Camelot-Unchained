@@ -6,29 +6,27 @@
  */
 
 class BuildingBlock {
-    id: number;
-    icon: string;
-    shapeId: number;
-    shapeTags: string[];
-    materialId: number;
-    materialTags: string[];
+  id: number;
+  icon: string;
+  shapeId: number;
+  shapeTags: string[];
+  materialId: number;
+  materialTags: string[];
 
-    constructor(block = <BuildingBlock>{})
-    {
-        this.id = block.id;
-        this.icon = block.icon;
-        this.shapeId = block.shapeId;
-        this.shapeTags = block.shapeTags || [];
-        this.materialId = block.materialId;
-        this.materialTags = block.materialTags || [];
-    }
+  constructor(block = <BuildingBlock>{}) {
+    this.id = block.id;
+    this.icon = block.icon;
+    this.shapeId = block.shapeId;
+    this.shapeTags = block.shapeTags || [];
+    this.materialId = block.materialId;
+    this.materialTags = block.materialTags || [];
+  }
 
   static create() {
-    let a = new BuildingBlock();
+    const a = new BuildingBlock();
     return a;
   }
 
 }
 
-export default BuildingBlock
-
+export default BuildingBlock;

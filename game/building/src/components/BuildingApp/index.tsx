@@ -70,7 +70,7 @@ class BuildingApp extends React.Component<BuildingAppProps, BuildingAppState> {
     return (
       <div className='building'>
         <div id="building-button" className={active ? 'active' : ''}
-          onClick={() => requester.changeMode(triggerMode)}>
+          onClick={() => requester.changeMode(triggerMode) }>
           <div/>
         </div>
         {this.createActionButton(active) }

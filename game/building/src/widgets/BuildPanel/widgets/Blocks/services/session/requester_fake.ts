@@ -89,8 +89,8 @@ class MaterialRequests {
   }
 
   getFakeMaterials(): BuildingMaterial[] {
-    let mats: BuildingMaterial[] = [];
-    let i = 0
+    const mats: BuildingMaterial[] = [];
+    let i = 0;
     for (; i < 20; i++) {
       mats.push(this.createMaterial(i, ['stone']));
     }

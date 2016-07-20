@@ -148,7 +148,7 @@ class DropLightPane extends React.Component<DropLightPaneProps, DropLightPaneSta
   }
 
   render() {
-    let light = this.props.lightsState.lights[this.props.lightsState.selectedIndex];
+    const light = this.props.lightsState.lights[this.props.lightsState.selectedIndex];
 
     return (
       <div className={`drop-light ${this.props.minimized ? 'minimized' : ''}`}>

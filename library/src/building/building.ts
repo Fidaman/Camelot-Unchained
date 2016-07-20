@@ -7,7 +7,6 @@ import BuildingMaterial from './classes/BuildingMaterial';
 import BuildingBlock from './classes/BuildingBlock';
 import client from '../core/client';
 import events  from '../events';
-import {Promise} from 'es6-promise';
 
 let materialsLoaded: boolean = false;
 let materialsRequested: boolean = false;
@@ -17,11 +16,12 @@ const loadCallbacks: { (subs: BuildingMaterial[]): void }[] = [];
 const materialsMap: { [key: number]: BuildingMaterial } = {};
 const materialsList: BuildingMaterial[] = [];
 const blocks: { [key: number]: BuildingBlock } = {};
+
 const BLANK_IMAGE = 'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAALxSURBVHhe5dlLiI1xGMfx30pCRFkJCyXFYiRSsmBByWIipMiOWYiNjZSirCxcsrUZuUzKZSGxULNT5JJsKaXspJlcVsd7zDn1zPN+z5n38v/bPIvP5nee37//M73TnN5Rp9MJDcNIMIwEw0gwjATDSDCMBMNIMIwEw0gwjATDSDCMBMNIMIwEw8akHYXNhU1gBXaqkrYWuufvLKH5ijBsTDr470j2BjtVSNfdWdYe7FSEYSvShLmcdx47w0ij7gzrKnZqwLA1adpc0tuIHSItLnwzXesjdmrCsDVpxFzUm8QOke65rrUQOzVhmIR00VzWO4MdSxpzHWsXdhrAMBnptbm0tx47XdLawh8za13GTkMYJiMtMBf3nmKnS3rmZvve4XwLGCYlHTELeKdg/qybsZaX5lvCMDnpllnC+llYbea2mc+80VlnJoJhFtIXs4x118x8dp/1Jf29tzDMQtpiFvJOF+64rO8VnpcIhtlI58xiVa3CsxLBMCvpuVluLofxjIQwzEpaUvjdW3CYG9hPDMPspP1mUfIWexlg+F9I18zC3hh2MsAwu5lviN97y5IfhfnYTQzD7KT7vUWHeYjdxDDMSjphlpxL+atyYhhmI60xy1W1Ds9KBMNspJdmMWuy8Mhlfe/xrEQwzEK6YJbyFvVmvrq870rpvEQwTE7abpbxjpm5ve4za/esMxPBMDlpyixiPYHZQa/Ap0qzCWCYlDRulvBmHn1Lmlf4ZGasx6X5ljBMZvg/Sg5hp0va52at49hpCMMkpGXm0t4EdizpputYS7HTAIZJDH8jXH70vZkf4KCvyx+w0wCGrQ1/8TH40feko65rXcJOTRi2Im0wl/TGsTOM9MCdYY1gpwYMW5F+mQta3T+Fcz/6nrTSnOFNY6cGDBsb/GKzq/qj70kn3VnWbexUhGEj0gFzKa/+o+9JL9yZVuP/GWAYCYaRYBgJhpFgGAmGkWAYCYaRYBgJhpFgGAmGkWAYCYaRYBhHR38Boj2hpYws8QsAAAAASUVORK5CYII='
 
 function getBlockForShapeId(shapeId: number, blocks: BuildingBlock[]) {
-  for (var i in blocks) {
-    var block = blocks[i];
+  for (let i in blocks) {
+    const block = blocks[i];
     if (block.shapeId === shapeId) {
       return block;
     }
@@ -38,11 +38,9 @@ function getMaterialIdFromBlockId(id: number) {
 }
 
 function recieveMaterials(subsRecieved: { [key: number]: string }) {
-  var count = 0;
   for (let i in subsRecieved) {
-    count++;
-    var id = parseInt(i);
-    var material = {
+    const id = parseInt(i);
+    const material = {
       id: id,
       icon: subsRecieved[i],
       tags: [],
@@ -108,7 +106,7 @@ function getBlockForBlockId(blockid: number): BuildingBlock {
 };
 
 function getMaterialForBlockId(blockid: number): BuildingMaterial {
-  var matId = getMaterialIdFromBlockId(blockid);
+  const matId = getMaterialIdFromBlockId(blockid);
   return materialsMap[matId];
 }
 
@@ -125,11 +123,11 @@ function getMissingMaterial(blockid: number): { material: BuildingMaterial, bloc
     shapeId: getShapeIdFromBlockId(blockid),
     materialId: getMaterialIdFromBlockId(blockid),
     icon: BLANK_IMAGE
-  
+
   } as BuildingBlock);
   blocks[block.id] = block;
 
-  const material: BuildingMaterial = new BuildingMaterial({ id: block.materialId, blocks: [block], icon: BLANK_IMAGE } as BuildingMaterial)
+  const material: BuildingMaterial = new BuildingMaterial({ id: block.materialId, blocks: [block], icon: BLANK_IMAGE } as BuildingMaterial);
   materialsMap[material.id] = material;
   materialsList.push(material);
 

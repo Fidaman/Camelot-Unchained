@@ -10,8 +10,7 @@ import EventEmitter from '../../events/EventEmitter'
 import client from '../../core/client';
 
 function run(emitter: EventEmitter, topic: string) {
-  if(client.OnBlockSelected)
-  {
+  if (client.OnBlockSelected) {
     client.OnCopyBlueprint(() => {
       emitter.emit(clientEventTopics.handlesBlueprintCopy, {});
     });

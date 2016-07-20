@@ -64,7 +64,7 @@ class MaterialReplacePane extends React.Component<MaterialReplacePaneProps, Mate
   }
 
   materialReplace = () => {
-    var w: any = window;
+    const w: any = window;
     if (w.cuAPI != null) {
       w.cuAPI.ReplaceSelectedSubstance(this.props.from.id, this.props.to.id);
     }

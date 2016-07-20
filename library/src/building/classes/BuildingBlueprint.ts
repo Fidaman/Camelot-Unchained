@@ -9,19 +9,17 @@ class BuildingBlueprint {
   icon: string;
   index: number;
 
-  constructor(block = <BuildingBlueprint>{})
-  {
-      this.name = block.name;
-      this.icon = block.icon;
-      this.index = block.index;
+  constructor(block = <BuildingBlueprint>{}) {
+    this.name = block.name;
+    this.icon = block.icon;
+    this.index = block.index;
   }
 
   static create() {
-    let a = new BuildingBlueprint();
+    const a = new BuildingBlueprint();
     return a;
   }
 
 }
 
-export default BuildingBlueprint
-
+export default BuildingBlueprint;

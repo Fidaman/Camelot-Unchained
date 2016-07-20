@@ -7,20 +7,21 @@
 import BuildingBlock from './BuildingBlock';
 
 class BuildingMateriale {
-    id: number;
-    icon: string;
-    tags: string[];
-    blocks: BuildingBlock[];
-    constructor(substance = <BuildingMateriale>{}){
-        this.id = substance.id;
-        this.icon = substance.icon;
-        this.tags = substance.tags || [];
-        this.blocks = substance.blocks || [];
+  id: number;
+  icon: string;
+  tags: string[];
+  blocks: BuildingBlock[];
 
-    }
+  constructor(substance = <BuildingMateriale>{}) {
+    this.id = substance.id;
+    this.icon = substance.icon;
+    this.tags = substance.tags || [];
+    this.blocks = substance.blocks || [];
 
-   static create() {
-    let a = new BuildingMateriale();
+  }
+
+  static create() {
+    const a = new BuildingMateriale();
     return a;
   }
 }

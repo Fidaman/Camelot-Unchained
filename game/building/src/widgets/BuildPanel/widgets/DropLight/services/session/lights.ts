@@ -113,7 +113,7 @@ export function loadLights(dispatch: (action: any) => void) {
   }
   else {
     for (let i = 0; i < 10; i++) {
-      let newLight = {
+      const newLight = {
         color: { red: 255, green: 147, blue: 14 } as Color,
         radius: 5,
         intensity: 10
@@ -181,8 +181,7 @@ function setSelectedLight(state: LightsState, light: Light) {
   state.lights[state.selectedIndex] = light;
 }
 
-export default function reducer(state: LightsState = initialState, action: any = {}) {
-  let newLights: Light[] = [];
+export default function reducer(state: LightsState = initialState, action: any = {}) {  
   switch (action.type) {
     case SELECT_LIGHT:
       return assign({}, state, { selectedIndex: action.selectedLight.index });

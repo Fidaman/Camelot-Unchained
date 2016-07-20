@@ -4,8 +4,8 @@ class BuildingRequests {
 
   public changeMode(mode: number) {
     setTimeout(() => {
-      console.log("changeMode to "+mode)
-      events.fire(events.clientEventTopics.handlesBuildingMode, {mode: mode});
+      console.log("changeMode to " + mode)
+      events.fire(events.clientEventTopics.handlesBuildingMode, { mode: mode });
     }, 500);
   }
 
