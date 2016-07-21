@@ -17,7 +17,11 @@
   img {
     height: 100%;
     width: 100%;
+    &:hover {
+    -webkit-filter: brightness(130%);
+    filter: brightness(130%);
   }
+}
   
   .icon-bg {
     border-radius: 20px;

@@ -38,6 +38,10 @@
     height: 50px;
     display: inline-block;
     border: 1px solid #464646;
+    &:hover {
+      -webkit-filter: brightness(130%);
+      filter: brightness(130%);
+    }
   }
 
   .drop-light__controls {
