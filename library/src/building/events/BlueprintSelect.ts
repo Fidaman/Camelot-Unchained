@@ -6,7 +6,7 @@
 "use strict";
 
 
-import {clientEventTopics} from '../../events/defaultTopics';
+import BuildingEventTopics from './BuildingEventTopics';
 import EventEmitter from '../../events/EventEmitter'
 import client from '../../core/client';
 
@@ -23,7 +23,7 @@ function run(emitter: EventEmitter, topic: string) {
 export default class BlockSelectListener {
   listening: boolean = false;
   type: string;
-  topic: string = clientEventTopics.handlesBlueprintSelect;
+  topic: string = BuildingEventTopics.handlesBlueprintSelect;
   start(emitter: EventEmitter): void {
     if (!this.listening) {
       this.listening = true;

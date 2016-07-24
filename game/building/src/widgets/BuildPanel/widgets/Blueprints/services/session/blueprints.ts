@@ -15,19 +15,19 @@ const MODE_CHANGED = 'buildpanel/panes/MODE_CHANGED';
 
 export function loadBlueprints(dispatch: (action: any) => void) {
 
-  events.addListener(events.clientEventTopics.handlesBlueprints, (info: { blueprints: BuildingBlueprint[] }) => {
+  events.addListener(events.buildingEventTopics.handlesBlueprints, (info: { blueprints: BuildingBlueprint[] }) => {
     dispatch(updateBlueprints(info.blueprints));
   });
 
-  events.addListener(events.clientEventTopics.handlesBlueprintSelect, (info: { blueprint: BuildingBlueprint }) => {
+  events.addListener(events.buildingEventTopics.handlesBlueprintSelect, (info: { blueprint: BuildingBlueprint }) => {
     dispatch(selectBlueprint(info.blueprint));
   });
 
-  events.addListener(events.clientEventTopics.handlesBuildingMode, (info: { mode: number }) => {
+  events.addListener(events.buildingEventTopics.handlesBuildingMode, (info: { mode: buildUIMode }) => {
     dispatch(copyModeChanged(info.mode == buildUIMode.BLOCKSELECTED));
   });
 
-  events.addListener(events.clientEventTopics.handlesBlueprintCopy, () => {
+  events.addListener(events.buildingEventTopics.handlesBlueprintCopy, () => {
     dispatch(pasteModeChanged(true));
   });
 

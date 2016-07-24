@@ -5,19 +5,19 @@
  */
 
 import {BuildingBlock, BuildingMaterial} from 'camelot-unchained'
-import requester from './requester';
+import requester from '../../../../../../services/session/requester';
 
 const assign = require('object-assign');
 
 const SELECT_FROM_MATERIAL = 'buildpanel/panes/SELECT_FROM_MATERIAL';
 const SELECT_TO_MATERIAL = 'buildpanel/panes/SELECT_TO_MATERIAL';
 
-const DEFAULT_MATERIAL: BuildingMaterial = {
+const DEFAULT_MATERIAL: BuildingMaterial = new BuildingMaterial({
   id: -1,
   icon: '',
   tags: ['default'],
   blocks: []
-} as BuildingMaterial;
+} as BuildingMaterial);
 
 
 export function selectFromMaterial(material: BuildingMaterial) {

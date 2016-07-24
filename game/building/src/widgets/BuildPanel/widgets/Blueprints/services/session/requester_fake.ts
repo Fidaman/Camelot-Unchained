@@ -19,26 +19,26 @@ class BlueprintRequests {
       bp.icon = undefined;
     });
       setTimeout(() => {
-        events.fire(events.clientEventTopics.handlesBlueprints, { blueprints: fakeBlueprintData })
+        events.fire(events.buildingEventTopics.handlesBlueprints, { blueprints: fakeBlueprintData })
       }, 2000);
   }
 
   public requestBlueprintIcon(blueprint: BuildingBlueprint) {
     setTimeout(() => {
       blueprint.icon = this.icons[blueprint.name]
-      events.fire(events.clientEventTopics.handlesBlueprints, { blueprints: fakeBlueprintData })
+      events.fire(events.buildingEventTopics.handlesBlueprints, { blueprints: fakeBlueprintData })
     }, 200);
   }
 
   public requestBlueprintSelect(blueprint: BuildingBlueprint) {
-    setTimeout(() => events.fire(events.clientEventTopics.handlesBlueprintSelect, { blueprint: blueprint }), 200);
+    setTimeout(() => events.fire(events.buildingEventTopics.handlesBlueprintSelect, { blueprint: blueprint }), 200);
   }
 
   public requestBlueprintSave(name: string) {
     const bp = fakeBlueprintData[0];
     this.icons[name] = bp.icon;
     fakeBlueprintData.push(new BuildingBlueprint({ name: name, index: fakeBlueprintData.length, icon: undefined }))
-    setTimeout(() => events.fire(events.clientEventTopics.handlesBlueprints, { blueprints: fakeBlueprintData }), 200);
+    setTimeout(() => events.fire(events.buildingEventTopics.handlesBlueprints, { blueprints: fakeBlueprintData }), 200);
     console.log("saveBlueprint request");
   }
 
@@ -48,14 +48,14 @@ class BlueprintRequests {
       if (bp.name == blueprint.name) {
         fakeBlueprintData.splice(i, 1);
         console.log("delete at index: " + index + " count=" + fakeBlueprintData.length);
-        events.fire(events.clientEventTopics.handlesBlueprints, { blueprints: fakeBlueprintData })
+        events.fire(events.buildingEventTopics.handlesBlueprints, { blueprints: fakeBlueprintData })
         return;
       }
     }
   }
 
   public requestBlueprintCopy() {
-    setTimeout(() => events.fire(events.clientEventTopics.handlesBlueprintCopy, {}), 200);
+    setTimeout(() => events.fire(events.buildingEventTopics.handlesBlueprintCopy, {}), 200);
 
     console.log("copyBlueprint request");
   }

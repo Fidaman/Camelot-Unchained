@@ -6,23 +6,31 @@
  */
 import BuildingBlock from './BuildingBlock';
 
-class BuildingMateriale {
+class BuildingMaterial {
   id: number;
   icon: string;
   tags: string[];
   blocks: BuildingBlock[];
 
-  constructor(substance = <BuildingMateriale>{}) {
+  constructor(substance = <BuildingMaterial>{}) {
     this.id = substance.id;
     this.icon = substance.icon;
     this.tags = substance.tags || [];
     this.blocks = substance.blocks || [];
+  }
 
+  public getBlockForShape(shapeId: number) {
+    for (let i in this.blocks) {
+      const block = this.blocks[i];
+      if (block.shapeId === shapeId) {
+        return block;
+      }
+    }
   }
 
   static create() {
-    const a = new BuildingMateriale();
+    const a = new BuildingMaterial();
     return a;
   }
 }
-export default BuildingMateriale;
+export default BuildingMaterial;

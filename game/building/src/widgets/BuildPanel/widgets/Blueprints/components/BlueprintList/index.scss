@@ -6,7 +6,7 @@
 
 .blueprints__list {
   
-  height: 100px;
+  height: calc(100% - 100px);
   overflow-y: scroll;
   overflow-x: hidden;
   font-size: .8em;
@@ -51,6 +51,7 @@
 .BlueprintsPane {
   position: relative;
   padding: 5px;
+      height: 100%;
 }
 
 .blueprint-preview-panel {

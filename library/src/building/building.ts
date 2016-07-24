@@ -40,12 +40,12 @@ function getMaterialIdFromBlockId(id: number) {
 function recieveMaterials(subsRecieved: { [key: number]: string }) {
   for (let i in subsRecieved) {
     const id = parseInt(i);
-    const material = {
+    const material = new BuildingMaterial({
       id: id,
       icon: subsRecieved[i],
       tags: [],
       blocks: []
-    } as BuildingMaterial;
+    } as BuildingMaterial);
 
     materialsMap[id] = material;
     materialsList.push(material);
@@ -89,7 +89,7 @@ function recieveBlockTags(id: number, tags: any) {
 
   if (--numBlocksToLoad === 0) {
     // finished loading shapes and types
-    events.fire(events.clientEventTopics.handlesBlocks, { materials: materialsList });
+    events.fire(events.buildingEventTopics.handlesBlocks, { materials: materialsList });
   }
 }
 
@@ -131,7 +131,7 @@ function getMissingMaterial(blockid: number): { material: BuildingMaterial, bloc
   materialsMap[material.id] = material;
   materialsList.push(material);
 
-  events.fire(events.clientEventTopics.handlesBlocks, { materials: materialsList });
+  events.fire(events.buildingEventTopics.handlesBlocks, { materials: materialsList });
 
   return { material: material, block: block };
 }
@@ -147,5 +147,6 @@ function requestMaterials() {
 }
 
 export * from './blueprints'
+export * from './building-actions'
 
 export { requestMaterials, getMissingMaterial, requestBlockSelect, getBlockForBlockId, getMaterialForBlockId };

@@ -8,10 +8,10 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 
 import {GlobalState} from '../../services/session/reducer';
-import * as materialService from '../../services/session/materials';
-import * as replaceService from '../../services/session/materials-replace';
 import {MaterialsState} from '../../services/session/materials';
-import requester from '../../services/session/requester';
+
+import blockRequester from '../../../../../../services/session/requester';
+import {ACTIVATE_MATERIAL_SELECTOR, DEACTIVATE_MATERIAL_SELECTOR} from '../../../../lib/BuildPane';
 
 import {BuildingItem, BuildingItemType} from '../../../../../../lib/BuildingItem';
 import {fireBuildingItemSelected} from '../../../../../../services/events';
@@ -20,7 +20,6 @@ import {events, BuildingBlock, BuildingMaterial} from 'camelot-unchained';
 
 import MaterialView from '../MaterialView';
 import ShapesView from '../ShapesView';
-import MaterialSelector from '../MaterialSelector';
 
 function select(state: GlobalState): MaterialAndShapePaneProps {
   return {
@@ -40,7 +39,7 @@ export interface MaterialAndShapePaneState {
 
 class MaterialAndShapePane extends React.Component<MaterialAndShapePaneProps, MaterialAndShapePaneState> {
 
-  private blockSelectionListener = (info: {material: BuildingMaterial, block: BuildingBlock}) => {
+  private blockSelectionListener = (info: { material: BuildingMaterial, block: BuildingBlock }) => {
     this.onBlockSelect(info.block);
   }
 
@@ -68,36 +67,27 @@ class MaterialAndShapePane extends React.Component<MaterialAndShapePaneProps, Ma
 
 
   showMatSelector = (show: boolean) => {
-    this.setState({ showMatSelect: show } as any);
+    const selected: BuildingMaterial = this.props.materialsState.selectedMaterial;
+    events.fire(ACTIVATE_MATERIAL_SELECTOR, { selection: selected, onSelect: this.selectMaterial });
   }
 
   selectBlock(block: BuildingBlock) {
-    materialService.requestBlockChange(block);
+    blockRequester.changeBlockSelection(block);
   }
 
   selectMaterial = (mat: BuildingMaterial) => {
-    materialService.requestMaterialChange(mat, this.props.materialsState.selectedBlock.shapeId);
+    const currentBlock = this.props.materialsState.selectedBlock;
+    const requestedBlock: BuildingBlock = mat.getBlockForShape(currentBlock.shapeId);
+    blockRequester.changeBlockSelection(requestedBlock);
     this.setState({ showMatSelect: false } as any);
-  }
-
-  componentDidMount() {
-    events.addListener(events.clientEventTopics.handlesBlockSelect, this.blockSelectionListener);
+    events.fire(DEACTIVATE_MATERIAL_SELECTOR, {});
   }
 
   componentWillUnmount() {
-    events.removeListener(this.blockSelectionListener);
+    events.fire(DEACTIVATE_MATERIAL_SELECTOR, {});
   }
 
   render() {
-    let matSelect: any = null;
-    if (this.state.showMatSelect) {
-      matSelect = (
-        <MaterialSelector
-          materialsByType={this.props.materialsState.materialsByType}
-          selectMaterial={this.selectMaterial}
-          selected={this.props.materialsState.selectedMaterial} />
-      )
-    }
 
     const selectedMaterial: BuildingMaterial = this.props.materialsState.selectedMaterial;
     const selectedShape: BuildingBlock = this.props.materialsState.selectedBlock;
@@ -122,7 +112,6 @@ class MaterialAndShapePane extends React.Component<MaterialAndShapePaneProps, Ma
             shapes={selectedMaterial.blocks}
             selected={selectedShape}
             selectShape={(block: BuildingBlock) => { this.selectBlock(block) } }/>
-          {matSelect}
         </div>
       </div>
     )

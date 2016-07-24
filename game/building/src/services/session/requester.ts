@@ -1,4 +1,4 @@
-import {client, channelId, events} from 'camelot-unchained';
+import {channelId, events, building, BuildingBlock} from 'camelot-unchained';
 import faker from './requester_fake';
 
 class BuildingRequests {
@@ -10,15 +10,32 @@ class BuildingRequests {
       return faker.changeMode(mode);
     }
 
-    client.SetBuildingMode(mode);
+    building.changeMode(mode);
   }
+
+  public changeBlockSelection(block: BuildingBlock) {
+    if (this.fake) {
+      return faker.requestBlockSelect(block);
+    }
+
+    building.requestBlockSelect(block);
+  }
+
+  public loadMaterials() {
+    if (this.fake) {
+      return faker.requestMaterials();
+    }
+
+    building.requestMaterials();
+  }
+
 
   public commit() {
     if (this.fake) {
       return faker.commit();
     }
 
-    client.CommitBlock();
+    building.commit();
   }
 
   public undo() {
@@ -26,7 +43,7 @@ class BuildingRequests {
       return faker.undo();
     }
 
-    client.UndoCube();
+    building.undo();
   }
 
   public redo() {
@@ -34,7 +51,7 @@ class BuildingRequests {
       return faker.redo();
     }
 
-    client.RedoCube();
+    building.undo();
   }
 
   public rotX() {
@@ -42,7 +59,7 @@ class BuildingRequests {
       return faker.rotX();
     }
 
-    client.BlockRotateX();
+    building.rotateX();
   }
 
   public rotY() {
@@ -50,7 +67,7 @@ class BuildingRequests {
       return faker.rotY();
     }
 
-    client.BlockRotateY();
+    building.rotateY();
   }
 
   public rotZ() {
@@ -58,7 +75,7 @@ class BuildingRequests {
       return faker.rotZ();
     }
 
-    client.BlockRotateZ();
+    building.rotateZ();
   }
 
   public flipX() {
@@ -66,7 +83,7 @@ class BuildingRequests {
       return faker.flipX();
     }
 
-    client.BlockFlipX();
+    building.flipX();
   }
 
   public flipY() {
@@ -74,7 +91,7 @@ class BuildingRequests {
       return faker.flipY();
     }
 
-    client.BlockFlipY();
+    building.flipY();
   }
 
   public flipZ() {
@@ -82,7 +99,7 @@ class BuildingRequests {
       return faker.flipZ();
     }
 
-    client.BlockFlipZ();
+    building.flipZ();
   }
 }
 

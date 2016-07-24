@@ -9,15 +9,12 @@ import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 const thunk = require('redux-thunk').default;
 
-import {events} from 'camelot-unchained';
 import reducer from './services/session/reducer';
-import {initialize} from './services/session/materials';
+import {initialize} from './services/session/materials-by-type';
 import {BuildPaneProps} from '../../lib/BuildPane';
 
 import TabbedPane from '../../components/TabbedPane';
-import MaterialAndShapePane from './components/MaterialAndShapePane';
-import MaterialReplace from './components/MaterialReplace';
-import {DEACTIVATE_MATERIAL_SELECTOR} from '../../lib/BuildPane';
+import MaterialSelector from './components/MaterialSelector';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
@@ -31,18 +28,10 @@ class Container extends React.Component<BuildPaneProps, ContainerState> {
     super(props);
   }
 
-  onTabChange = () => {
-    events.fire(DEACTIVATE_MATERIAL_SELECTOR, {});
-  }
-
-
   render() {
     return (
       <Provider store={store}>
-        <TabbedPane tabs={['Blocks', 'Replace']} onTabChange={ (index: number, name: string) => this.onTabChange } >
-          <MaterialAndShapePane minimized={this.props.minimized}/>
-          <MaterialReplace minimized={this.props.minimized}/>
-        </TabbedPane>
+        <MaterialSelector />
       </Provider>
     )
   }

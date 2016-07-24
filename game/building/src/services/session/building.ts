@@ -4,8 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import {events} from 'camelot-unchained';
-import faker from './requester_fake';
+import {events, buildUIMode} from 'camelot-unchained';
+import requester from './requester';
 
 const assign = require('object-assign');
 
@@ -14,7 +14,7 @@ const CHANGE_MODE = 'building/mode/CHANGE_MODE';
 const win: any = window;
 const fake: boolean = (win.cuAPI == null);
 
-function setMode(mode: number) {
+function setMode(mode: buildUIMode) {
   return {
     type: CHANGE_MODE,
     mode: mode,
@@ -22,17 +22,20 @@ function setMode(mode: number) {
 }
 
 export function initializeBuilding(dispatch: any) {
-  events.addListener(events.clientEventTopics.handlesBuildingMode, (info: { mode: number }) => {
+
+  requester.loadMaterials();
+
+  events.addListener(events.buildingEventTopics.handlesBuildingMode, (info: { mode: buildUIMode }) => {
     dispatch(setMode(info.mode));
   });
 }
 
 export interface BuildingState {
-  mode?: number;
+  mode?: buildUIMode;
 }
 
 const initialState = {
-  mode: 1
+  mode: buildUIMode.PLACINGPHANTOM
 }
 
 export default function reducer(state: BuildingState = initialState, action: any = {}) {

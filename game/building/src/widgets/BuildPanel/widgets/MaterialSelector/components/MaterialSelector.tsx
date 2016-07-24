@@ -5,14 +5,26 @@
  */
 
 import * as React from 'react';
+import {connect} from 'react-redux';
 import {BuildingMaterial} from 'camelot-unchained';
+import {GlobalState} from '../services/session/reducer';
+import {setSelectedMaterial} from '../services/session/materials-by-type';
 
-import MaterialsByType from '../../lib/MaterialsByType';
+import MaterialsByType from '../lib/MaterialsByType';
+
+function select(state: GlobalState): MaterialSelectorProps {
+  return {
+    materialsByType: state.materialSelector.materialsByType,
+    selectMaterial: state.materialSelector.onMaterialSelected,
+    selected: state.materialSelector.selectedMaterial,
+  }
+}
 
 export interface MaterialSelectorProps {
-  materialsByType: MaterialsByType;
-  selectMaterial: (mat: BuildingMaterial) => void;
-  selected: BuildingMaterial;
+  dispatch?: (action: any) => void;
+  materialsByType?: MaterialsByType;
+  selectMaterial?: (mat: BuildingMaterial) => void;
+  selected?: BuildingMaterial;
 }
 
 export interface MaterialSelectorState {
@@ -24,12 +36,17 @@ class MaterialSelector extends React.Component<MaterialSelectorProps, MaterialSe
     super(props);
   }
 
+  selectMaterial = (mat: BuildingMaterial) => {
+    this.props.selectMaterial(mat);
+    this.props.dispatch(setSelectedMaterial(mat));
+  }
+
   generateMaterialIcon = (mat: BuildingMaterial, selectedId: number) => {
     return (
       <img key={mat.id}
         className={mat.id == selectedId ? 'active' : ''}
         src={`data:image/png;base64, ${mat.icon}`}
-        onClick={() => this.props.selectMaterial(mat) }
+        onClick={() => this.selectMaterial(mat) }
         />
     )
   }
@@ -39,7 +56,7 @@ class MaterialSelector extends React.Component<MaterialSelectorProps, MaterialSe
 
     return (
 
-      <div className='material-and-shape__material-selector'>
+      <div className='material-selector'>
         <header>Stone Blocks</header>
         {this.props.materialsByType.stoneBlocks.map((mat: BuildingMaterial) => this.generateMaterialIcon(mat, selectedId)) }
 
@@ -53,4 +70,4 @@ class MaterialSelector extends React.Component<MaterialSelectorProps, MaterialSe
   }
 }
 
-export default MaterialSelector;
+export default connect(select)(MaterialSelector);

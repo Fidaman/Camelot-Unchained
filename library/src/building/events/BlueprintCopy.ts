@@ -5,14 +5,14 @@
  */
 "use strict";
 
-import {clientEventTopics} from '../../events/defaultTopics';
+import BuildingEventTopics from './BuildingEventTopics';
 import EventEmitter from '../../events/EventEmitter'
 import client from '../../core/client';
 
 function run(emitter: EventEmitter, topic: string) {
   if (client.OnBlockSelected) {
     client.OnCopyBlueprint(() => {
-      emitter.emit(clientEventTopics.handlesBlueprintCopy, {});
+      emitter.emit(BuildingEventTopics.handlesBlueprintCopy, {});
     });
   }
 }
@@ -20,7 +20,7 @@ function run(emitter: EventEmitter, topic: string) {
 export default class BlockSelectListener {
   listening: boolean = false;
   type: string;
-  topic: string = clientEventTopics.handlesBlueprintCopy;
+  topic: string = BuildingEventTopics.handlesBlueprintCopy;
   start(emitter: EventEmitter): void {
     if (!this.listening) {
       this.listening = true;

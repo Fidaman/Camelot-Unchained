@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 
 export interface TabbedPaneProps {
   tabs?: string[];
+  onTabChange?: (index: number, name: string) => void
 }
 
 export interface TabbedPaneState {
@@ -24,6 +25,7 @@ class TabbedPane extends React.Component<TabbedPaneProps, TabbedPaneState> {
 
   onTabSelect(index: number) {
     this.setState({ selectedTabIndex: index, });
+    this.props.onTabChange(index, this.props.tabs[index]);
   }
 
   render() {
@@ -31,11 +33,11 @@ class TabbedPane extends React.Component<TabbedPaneProps, TabbedPaneState> {
       <div className='row'>
         <div className='tabs'>
           { this.props.tabs.map((tab: string, index: number) => {
-            return (<div key={index} onClick={()=>this.onTabSelect(index)} className={this.state.selectedTabIndex == index ? 'active' : ''} >{tab}</div>);
+            return (<div key={index} onClick={() => this.onTabSelect(index) } className={this.state.selectedTabIndex == index ? 'active' : ''} >{tab}</div>);
           }) }
         </div>
         <div className='tab-content'>
-          {React.Children.toArray(this.props.children)[this.state.selectedTabIndex] }
+          {React.Children.toArray(this.props.children)[this.state.selectedTabIndex]}
         </div>
       </div>
     )

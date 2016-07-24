@@ -28,7 +28,7 @@ function loadBlueprints() {
     blueprintsList.push(blueprint);
 
     if (blueprintsLoaded) {
-      events.fire(events.clientEventTopics.handlesBlueprints, { blueprints: blueprintsList })
+      events.fire(events.buildingEventTopics.handlesBlueprints, { blueprints: blueprintsList })
     }
 
   });
@@ -46,7 +46,7 @@ function requestBlueprintPaste() {
 
 function fireHandleBlueprints()
 {
-  events.fire(events.clientEventTopics.handlesBlueprints, { blueprints: blueprintsList });
+  events.fire(events.buildingEventTopics.handlesBlueprints, { blueprints: blueprintsList });
 }
 
 function requestBlueprintDelete(blueprint: BuildingBlueprint) {
@@ -71,7 +71,7 @@ function requestBlueprintSave(name: string) {
 
 function requestBlueprintSelect(blueprint: BuildingBlueprint) {
   client.SelectBlueprint(blueprint.index);
-  events.fire(events.clientEventTopics.handlesBlueprintSelect, { blueprint: blueprint });
+  events.fire(events.buildingEventTopics.handlesBlueprintSelect, { blueprint: blueprint });
 }
 
 function requestBlueprintIcon(blueprint: BuildingBlueprint) {

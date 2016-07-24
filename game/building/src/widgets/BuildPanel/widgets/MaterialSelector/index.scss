@@ -4,19 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-.material-and-shape__material-selector {
-  background: linear-gradient(#131313, rgba(0, 0, 0, 0.8));
-  border: 1px solid #393634;
-  width: 200px;
-  min-height: 100px;
-  position: absolute;
-  left: -220px;
-  top: 10px;
-  padding: 10px;
-  padding-right:0px;
-  overflow-y: auto;
-  max-height: 800px;
-  line-height:0px;
+.material-selector {
+    background: linear-gradient(#131313, rgba(0, 0, 0, 0.8));
+    border: 1px solid #393634;
+    height: calc(100% - 20px);
+    padding: 10px;
+    padding-right: 0px;
+    overflow-y: auto;
+    line-height: 0px;
 
   header {
     line-height: 1.5em;

@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {client, channelId, events} from 'camelot-unchained';
+import {buildUIMode} from 'camelot-unchained';
 
 import buildingActions from '../../services/session/requester';
 import {GlobalState} from '../../services/session/reducer';
@@ -45,10 +45,10 @@ class ActionBar extends React.Component<ActionBarProps, ActionBarState> {
   }
 
   onSelect() {
-    if (this.props.buildingMode < 4) {
-      buildingActions.changeMode(4);
+    if (this.props.buildingMode != buildUIMode.SELECTINGBLOCK) {
+      buildingActions.changeMode(buildUIMode.SELECTINGBLOCK);
     } else {
-      buildingActions.changeMode(1);
+      buildingActions.changeMode(buildUIMode.PLACINGPHANTOM);
     }
   }
 

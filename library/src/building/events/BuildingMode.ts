@@ -6,15 +6,16 @@
 "use strict";
 
 
-import {clientEventTopics} from '../../events/defaultTopics';
+import BuildingEventTopics from './BuildingEventTopics';
 import EventEmitter from '../../events/EventEmitter'
 import client from '../../core/client';
+import buildUIMode from '../../core/constants/buildUIMode';
 
 import {getBlockForBlockId, getMaterialForBlockId} from '../../building/building';
 
 function run(emitter: EventEmitter, topic: string) {
   if (client.OnBlockSelected) {
-    client.OnBuildingModeChanged((mode: number) => {
+    client.OnBuildingModeChanged((mode: buildUIMode) => {
       emitter.emit(topic, { mode: mode, });
     });
   }
@@ -23,7 +24,7 @@ function run(emitter: EventEmitter, topic: string) {
 export default class BuildingModeListener {
   listening: boolean = false;
   type: string;
-  topic: string = clientEventTopics.handlesBuildingMode;
+  topic: string = BuildingEventTopics.handlesBuildingMode;
   start(emitter: EventEmitter): void {
     if (!this.listening) {
       this.listening = true;

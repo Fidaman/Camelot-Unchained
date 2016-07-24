@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {events} from 'camelot-unchained';
+import {events, buildUIMode} from 'camelot-unchained';
 
 import ActionBar from '../../widgets/ActionBar';
 import BuildingPanel from '../../widgets/BuildPanel';
@@ -24,7 +24,7 @@ function select(state: any): any {
 
 export interface BuildingAppProps {
   dispatch?: (action: any) => void;
-  buildingMode?: number;
+  buildingMode?: buildUIMode;
   selectedItem?: BuildingItem;
 }
 
@@ -66,7 +66,7 @@ class BuildingApp extends React.Component<BuildingAppProps, BuildingAppState> {
 
   render() {
     const active: boolean = this.props.buildingMode > 0;
-    const triggerMode: number = active ? 0 : 1;
+    const triggerMode: buildUIMode = active ? buildUIMode.NOTBUILDING : buildUIMode.PLACINGPHANTOM;
     return (
       <div className='building'>
         <div id="building-button" className={active ? 'active' : ''}
